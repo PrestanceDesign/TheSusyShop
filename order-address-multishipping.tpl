@@ -1,28 +1,9 @@
 {*
-* 2007-2013 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2013 PrestaShop SA
-*  @version  Release: $Revision$
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*}
+ * =|= Checkout - Multi-shipping ================================
+ *
+ * Multi-shipping section of checkout if enabled.
+ * ==============================================================
+ *}
 
 {if $opc}
 	{assign var="back_order_page" value="order-opc.php"}
@@ -41,8 +22,8 @@
 	{$ignoreList.6 = "date_add"}
 	{$ignoreList.7 = "date_upd"}
 	{$ignoreList.8 = "active"}
-	{$ignoreList.9 = "deleted"}	
-	
+	{$ignoreList.9 = "deleted"}
+
 	{* PrestaShop 1.4.0.17 compatibility *}
 	{if isset($addresses)}
 		{foreach from=$addresses key=k item=address}
@@ -67,9 +48,9 @@
 	var currencyRate = '{$currencyRate|floatval}';
 	var currencyFormat = '{$currencyFormat|intval}';
 	var currencyBlank = '{$currencyBlank|intval}';
-	var txtProduct = "{l s='Product' js=1}";
-	var txtProducts = "{l s='Products' js=1}";
-	var txtSelectAnAddressFirst = "{l s='Please start by selecting an address' js=1}";
+	var txtProduct = "{l s='product'}";
+	var txtProducts = "{l s='products'}";
+	var txtSelectAnAddressFirst = "{l s='Please start by selecting an address'}";
 	{/if}
 
 	var formatedAddressFieldsValuesList = new Array();
@@ -108,11 +89,11 @@
 
 		ordered_fields_name = ordered_fields_name.concat(formatedAddressFieldsValuesList[id_address]['ordered_fields']);
 		ordered_fields_name = ordered_fields_name.concat(['update']);
-		
+
 		dest_comp.html('');
 
 		li_content['title'] = adr_titles_vals[address_type];
-		li_content['update'] = '<a href="{$link->getPageLink('address', true, NULL, "id_address")}'+id_address+'&amp;back=order?step=1{if $back}&mod={$back}{/if}" title="{l s='Update' js=1}">{l s='Update' js=1}</a>';
+		li_content['update'] = '<a href="{$link->getPageLink('address', true, NULL, "id_address")}'+id_address+'&amp;back=order?step=1{if $back}&mod={$back}{/if}" title="{l s='Update'}">{l s='Update'}</a>';
 
 		appendAddressList(dest_comp, li_content, ordered_fields_name);
 	}
@@ -170,7 +151,7 @@
 	<div class="addresses clearfix">
 		<input type="hidden" name="id_address_delivery" id="id_address_delivery" value="{$cart->id_address_delivery}" onchange="updateAddressesDisplay();{if $opc}updateAddressSelection();{/if}" />
 		<p id="address_invoice_form" class="select" {if $cart->id_address_invoice == $cart->id_address_delivery}style="display: none;"{/if}>
-		
+
 		{if $addresses|@count >= 1}
 			<label for="id_address_invoice" class="strong">{l s='Choose a billing address:'}</label>
 			<select name="id_address_invoice" id="id_address_invoice" class="address_select" onchange="updateAddressesDisplay();{if $opc}updateAddressSelection();{/if}">
@@ -191,7 +172,7 @@
 		</p>
 		{if !$opc}
 		<div id="ordermsg" class="clearfix">
-			<p class="txt">{l s='If you would like to add a comment about your order, please write it in the field below.'}</p>
+			<p class="txt">{l s='If you would like to add a comment about your order, please write it below.'}</p>
 			<p class="textarea"><textarea cols="60" rows="3" name="message">{if isset($oldMessage)}{$oldMessage}{/if}</textarea></p>
 		</div>
 		{/if}

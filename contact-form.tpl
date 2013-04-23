@@ -1,32 +1,14 @@
 {*
-* 2007-2013 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2013 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*}
+ * =|= Contact Form =============================================
+ *
+ * 'Contact us' form linked to Customer Service in Back Office.
+ * ==============================================================
+ *}
 
 {capture name=path}{l s='Contact'}{/capture}
 {include file="$tpl_dir./breadcrumb.tpl"}
 
-<h1>{l s='Customer service'} - {if isset($customerThread) && $customerThread}{l s='Your reply'}{else}{l s='Contact us'}{/if}</h1>
+<h1>{l s='Customer Service'} - {if isset($customerThread) && $customerThread}{l s='Your reply'}{else}{l s='Contact us'}{/if}</h1>
 
 {if isset($confirmation)}
 	<p>{l s='Your message has been successfully sent to our team.'}</p>
@@ -43,7 +25,7 @@
 	{include file="$tpl_dir./errors.tpl"}
 	<form action="{$request_uri|escape:'htmlall':'UTF-8'}" method="post" class="std" enctype="multipart/form-data">
 		<fieldset>
-			<h3>{l s='send a message'}</h3>
+			<h3>{l s='Send a message'}</h3>
 			<p class="select">
 				<label for="id_contact">{l s='Subject Heading'}</label>
 			{if isset($customerThread.id_contact)}
@@ -70,7 +52,7 @@
 				{/foreach}
 			{/if}
 			<p class="text">
-				<label for="email">{l s='Email address'}</label>
+				<label for="email">{l s='E-mail address'}</label>
 				{if isset($customerThread.email)}
 					<input type="text" id="email" name="from" value="{$customerThread.email|escape:'htmlall':'UTF-8'}" readonly="readonly" />
 				{else}
@@ -80,12 +62,12 @@
 		{if !$PS_CATALOG_MODE}
 			{if (!isset($customerThread.id_order) || $customerThread.id_order > 0)}
 			<p class="text select">
-				<label for="id_order">{l s='Order reference'}</label>
+				<label for="id_order">{l s='Order ID'}</label>
 				{if !isset($customerThread.id_order) && isset($isLogged) && $isLogged == 1}
 					<select name="id_order" >
 						<option value="0">{l s='-- Choose --'}</option>
 						{foreach from=$orderList item=order}
-							<option value="{$order.value|intval}" {if $order.selected|intval}selected="selected"{/if}>{$order.label|escape:'htmlall':'UTF-8'}</option>
+							<option value="{$order.value|intval}">{$order.label|escape:'htmlall':'UTF-8'}</option>
 						{/foreach}
 					</select>
 				{elseif !isset($customerThread.id_order) && !isset($isLogged)}
@@ -99,14 +81,14 @@
 			<p class="text select">
 			<label for="id_product">{l s='Product'}</label>
 				{if !isset($customerThread.id_product)}
-				{foreach from=$orderedProductList key=id_order item=products name=products}
-					<select name="id_product" id="{$id_order}_order_products" class="product_select" style="width:300px;{if !$smarty.foreach.products.first} display:none; {/if}" {if !$smarty.foreach.products.first}disabled="disabled" {/if}>
-						<option value="0">{l s='-- Choose --'}</option>
-						{foreach from=$products item=product}
-							<option value="{$product.value|intval}">{$product.label|escape:'htmlall':'UTF-8'}</option>
-						{/foreach}
-					</select>
-				{/foreach}
+					{foreach from=$orderedProductList key=id_order item=products name=products}
+						<select name="id_product" id="{$id_order}_order_products" class="product_select" style="width:300px;{if !$smarty.foreach.products.first} display:none; {/if}" {if !$smarty.foreach.products.first}disabled="disabled" {/if}>
+							<option value="0">{l s='-- Choose --'}</option>
+							{foreach from=$products item=product}
+								<option value="{$product.value|intval}">{$product.label|escape:'htmlall':'UTF-8'}</option>
+							{/foreach}
+						</select>
+					{/foreach}
 				{elseif $customerThread.id_product > 0}
 					<input type="text" name="id_product" id="id_product" value="{$customerThread.id_product|intval}" readonly="readonly" />
 				{/if}

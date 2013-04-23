@@ -1,27 +1,9 @@
 {*
-* 2007-2013 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2013 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*}
+ * =|= Checkout - Address =======================================
+ *
+ * Billing / Shipping address section of checkout.
+ * ==============================================================
+ *}
 
 {if $opc}
 	{assign var="back_order_page" value="order-opc.php"}
@@ -71,10 +53,10 @@
 	var currencyRate = '{$currencyRate|floatval}';
 	var currencyFormat = '{$currencyFormat|intval}';
 	var currencyBlank = '{$currencyBlank|intval}';
-	var txtProduct = "{l s='product' js=1}";
-	var txtProducts = "{l s='products' js=1}";
+	var txtProduct = "{l s='product'}";
+	var txtProducts = "{l s='products'}";
 	{/if}
-	
+
 	var addressMultishippingUrl = "{$link->getPageLink('address', true, NULL, "back={$back_order_page}?step=1{'&multi-shipping=1'|urlencode}{if $back}&mod={$back|urlencode}{/if}")}";
 	var addressUrl = "{$link->getPageLink('address', true, NULL, "back={$back_order_page}?step=1{if $back}&mod={$back}{/if}")}";
 
@@ -99,8 +81,8 @@
 	function getAddressesTitles()
 	{
 		return {
-						'invoice': "{l s='Your billing address' js=1}",
-						'delivery': "{l s='Your delivery address' js=1}"
+						'invoice': "{l s='Your billing address'}",
+						'delivery': "{l s='Your delivery address'}"
 			};
 
 	}
@@ -118,7 +100,7 @@
 		dest_comp.html('');
 
 		li_content['title'] = adr_titles_vals[address_type];
-		li_content['update'] = '<a href="{$link->getPageLink('address', true, NULL, "id_address")}'+id_address+'&amp;back={$back_order_page}?step=1{if $back}&mod={$back}{/if}" title="{l s='Update' js=1}">&raquo; {l s='Update' js=1}</a>';
+		li_content['update'] = '<a href="{$link->getPageLink('address', true, NULL, "id_address")}'+id_address+'&amp;back={$back_order_page}?step=1{if $back}&mod={$back}{/if}" title="{l s='Update'}">&raquo; {l s='Update'}</a>';
 
 		appendAddressList(dest_comp, li_content, ordered_fields_name);
 	}
@@ -168,7 +150,7 @@
 	{assign var='current_step' value='address'}
 	{include file="$tpl_dir./order-steps.tpl"}
 	{include file="$tpl_dir./errors.tpl"}
-	
+
 	{if !$multi_shipping && {Configuration::get('PS_ALLOW_MULTISHIPPING')} && !$cart->isVirtualCart()}
 		<div class="button_multishipping_mode" id="multishipping_mode_box">
 			<div class="title">{l s='Multi-shipping'}</div>
@@ -186,10 +168,10 @@
 			<div class="button_multishipping_mode" id="multishipping_mode_box">
 				<div class="title">{l s='Multi-shipping'}</div>
 				<div class="description">
-					<input type="checkbox" id="multishipping_mode_checkbox" onchange="multishippingMode(this); return false;"/><label for="multishipping_mode_checkbox">{l s='I\'d like to specify a delivery address for each product ordered.'}</label>
+					<input type="checkbox" id="multishipping_mode_checkbox" onchange="multishippingMode(this); return false;"/><label for="multishipping_mode_checkbox">{l s='I want to specify a delivery address for each product I order.'}</label>
 				</div>
 				<div class="description_off">
-					<a href="{$link->getPageLink('order-opc', true, NULL, 'ajax=1&multi-shipping=1&method=multishipping')}" id="link_multishipping_form" title="{l s='Choose the delivery address(es)'}">
+					<a href="{$link->getPageLink('order-opc', true, NULL, 'ajax=1&multi-shipping=1&method=multishipping')}" id="link_multishipping_form" title="{l s='Choose the delivery addresses'}">
 						{l s='Specify a delivery address for each product.'}
 					</a>
 				</div>
@@ -215,7 +197,7 @@
 			{foreach from=$addresses key=k item=address}
 				<option value="{$address.id_address|intval}" {if $address.id_address == $cart->id_address_delivery}selected="selected"{/if}>{$address.alias|escape:'htmlall':'UTF-8'}</option>
 			{/foreach}
-			
+
 			</select>
 		</p>
 		<p class="checkbox addressesAreEquals" {if $cart->isVirtualCart()}style="display:none;"{/if}>
@@ -247,7 +229,7 @@
 		</p>
 		{if !$opc}
 		<div id="ordermsg" class="clearfix">
-			<p class="txt">{l s='If you would like to add a comment about your order, please write it in the field below.'}</p>
+			<p class="txt">{l s='If you would like to add a comment about your order, please write it below.'}</p>
 			<p class="textarea"><textarea cols="60" rows="3" name="message">{if isset($oldMessage)}{$oldMessage}{/if}</textarea></p>
 		</div>
 		{/if}

@@ -1,3 +1,10 @@
+{*
+ * =|= Checkout (OPC) - New Account / Login =====================
+ *
+ * Product rows to select in multi-shipping table.
+ * ==============================================================
+ *}
+
 <div id="opc_new_account" class="opc-main-block">
 	<div id="opc_new_account-overlay" class="opc-overlay" style="display: none;"></div>
 	<h2><span>1</span> {l s='Account'}</h2>
@@ -10,7 +17,7 @@
 				<div id="opc_login_errors" class="error" style="display:none;"></div>
 				<!-- END Error return block -->
 				<div style="margin-left:40px;margin-bottom:5px;float:left;width:40%;">
-					<label for="login_email">{l s='Email address'}</label>
+					<label for="login_email">{l s='E-mail address'}</label>
 					<span><input type="text" id="login_email" name="email" /></span>
 				</div>
 				<div style="margin-left:40px;margin-bottom:5px;float:left;width:40%;">
@@ -20,7 +27,7 @@
 				</div>
 				<p class="submit">
 					{if isset($back)}<input type="hidden" class="hidden" name="back" value="{$back|escape:'htmlall':'UTF-8'}" />{/if}
-					<input type="submit" id="SubmitLogin" name="SubmitLogin" class="button" value="{l s='Login'}" />
+					<input type="submit" id="SubmitLogin" name="SubmitLogin" class="button" value="{l s='Log in'}" />
 				</p>
 			</div>
 		</fieldset>
@@ -30,17 +37,17 @@
 			<h3 id="new_account_title">{l s='New Customer'}</h3>
 			<div id="opc_account_choice">
 				<div class="opc_float">
-					<p class="title_block">{l s='Instant Checkout'}</p>
+					<h4>{l s='Instant Checkout'}</h4>
 					<p>
-						<input type="button" class="exclusive_large" id="opc_guestCheckout" value="{l s='Guest checkout'}" />
+						<input type="button" class="exclusive_large" id="opc_guestCheckout" value="{l s='Checkout as guest'}" />
 					</p>
 				</div>
 
 				<div class="opc_float">
-					<p class="title_block">{l s='Create your account today and enjoy:'}</p>
+					<h4>{l s='Create your account today and enjoy:'}</h4>
 					<ul class="bullet">
 						<li>{l s='Personalized and secure access'}</li>
-						<li>{l s='A fast and easy check out process'}</li>
+						<li>{l s='Fast and easy check out'}</li>
 						<li>{l s='Separate billing and shipping addresses'}</li>
 					</ul>
 					<p>
@@ -64,40 +71,42 @@
 						{/if}
 						{if $country.need_identification_number}
 							countriesNeedIDNumber.push({$country.id_country|intval});
-						{/if}	
+						{/if}
 						{if isset($country.need_zip_code)}
 							countriesNeedZipCode[{$country.id_country|intval}] = {$country.need_zip_code};
 						{/if}
 					{/foreach}
 				{/if}
 				//]]>
-				{literal}
-				function vat_number()
-				{
-					if ($('#company').val() != '')
-						$('#vat_number_block').show();
-					else
-						$('#vat_number_block').hide();
-				}
-				function vat_number_invoice()
-				{
-					if ($('#company_invoice').val() != '')
-						$('#vat_number_block_invoice').show();
-					else
-						$('#vat_number_block_invoice').hide();
-				}
-				
-				$(document).ready(function() {
-					$('#company').blur(function(){
+				{if $vat_management}
+					{literal}
+					function vat_number()
+					{
+						if ($('#company').val() != '')
+							$('#vat_number_block').show();
+						else
+							$('#vat_number_block').hide();
+					}
+					function vat_number_invoice()
+					{
+						if ($('#company_invoice').val() != '')
+							$('#vat_number_block_invoice').show();
+						else
+							$('#vat_number_block_invoice').hide();
+					}
+
+					$(document).ready(function() {
+						$('#company').blur(function(){
+							vat_number();
+						});
+						$('#company_invoice').blur(function(){
+							vat_number_invoice();
+						});
 						vat_number();
-					});
-					$('#company_invoice').blur(function(){
 						vat_number_invoice();
 					});
-					vat_number();
-					vat_number_invoice();
-				});
-				{/literal}
+					{/literal}
+				{/if}
 				</script>
 				<!-- Error return block -->
 				<div id="opc_account_errors" class="error" style="display:none;"></div>
@@ -108,13 +117,13 @@
 				<input type="hidden" id="opc_id_address_delivery" name="opc_id_address_delivery" value="{if isset($guestInformations) && $guestInformations.id_address_delivery}{$guestInformations.id_address_delivery}{else}0{/if}" />
 				<input type="hidden" id="opc_id_address_invoice" name="opc_id_address_invoice" value="{if isset($guestInformations) && $guestInformations.id_address_delivery}{$guestInformations.id_address_delivery}{else}0{/if}" />
 				<p class="required text">
-					<label for="email">{l s='Email'} <sup>*</sup></label>
+					<label for="email">{l s='E-mail'} <sup>*</sup></label>
 					<input type="text" class="text" id="email" name="email" value="{if isset($guestInformations) && $guestInformations.email}{$guestInformations.email}{/if}" />
 				</p>
 				<p class="required password is_customer_param">
 					<label for="passwd">{l s='Password'} <sup>*</sup></label>
 					<input type="password" class="text" name="passwd" id="passwd" />
-					<span class="form_info">{l s='(five characters min.)'}</span>
+					<span class="form_info">{l s='(5 characters min.)'}</span>
 				</p>
 				<p class="radio required">
 					<span>{l s='Title'}</span>
@@ -169,11 +178,11 @@
 				{if isset($newsletter) && $newsletter}
 				<p class="checkbox">
 					<input type="checkbox" name="newsletter" id="newsletter" value="1" {if isset($guestInformations) && $guestInformations.newsletter}checked="checked"{/if} />
-					<label for="newsletter">{l s='Sign up for our newsletter!'}</label>
+					<label for="newsletter">{l s='Sign up for our newsletter'}</label>
 				</p>
 				<p class="checkbox" >
 					<input type="checkbox"name="optin" id="optin" value="1" {if isset($guestInformations) && $guestInformations.optin}checked="checked"{/if} />
-					<label for="optin">{l s='Receive special offers from our partners!'}</label>
+					<label for="optin">{l s='Receive special offers from our partners'}</label>
 				</p>
 				{/if}
 				<h3>{l s='Delivery address'}</h3>
@@ -213,7 +222,7 @@
 				<p class="required text">
 					<label for="city">{l s='City'} <sup>*</sup></label>
 					<input type="text" class="text" name="city" id="city" value="{if isset($guestInformations) && $guestInformations.city}{$guestInformations.city}{/if}" />
-					
+
 				</p>
 				{elseif $field_name eq "country" || $field_name eq "Country:name"}
 				<p class="required select">
@@ -225,7 +234,7 @@
 						{/foreach}
 					</select>
 				</p>
-				{elseif $field_name eq "vat_number"}	
+				{elseif $field_name eq "vat_number"}
 				<div id="vat_number_block" style="display:none;">
 					<p class="text">
 						<label for="vat_number">{l s='VAT number'}</label>
@@ -235,10 +244,11 @@
 				{elseif $field_name eq "state" || $field_name eq 'State:name'}
 				{$stateExist = true}
 				<p class="required id_state select" style="display:none;">
-					<label for="id_state">{l s='State'} <sup>*</sup></label>
+					<label for="id_state">{l s='State'}</label>
 					<select name="id_state" id="id_state">
 						<option value="">-</option>
 					</select>
+					<sup>*</sup>
 				</p>
 				{/if}
 				{/foreach}
@@ -259,15 +269,12 @@
 					<label for="other">{l s='Additional information'}</label>
 					<textarea name="other" id="other" cols="26" rows="3"></textarea>
 				</p>
-				{if $one_phone_at_least}
-					<p class="inline-infos required is_customer_param">{l s='You must register at least one phone number.'}</p>
-				{/if}								
-				<p class="text is_customer_param">
+				<p class="required text">
 					<label for="phone">{l s='Home phone'}</label>
 					<input type="text" class="text" name="phone" id="phone" value="{if isset($guestInformations) && $guestInformations.phone}{$guestInformations.phone}{/if}" />
 				</p>
-				<p class="{if $one_phone_at_least}required {/if}text">
-					<label for="phone_mobile">{l s='Mobile phone'}{if $one_phone_at_least} <sup>*</sup>{/if}</label>
+				<p class="text is_customer_param">
+					<label for="phone_mobile">{l s='Mobile phone'}</label>
 					<input type="text" class="text" name="phone_mobile" id="phone_mobile" value="" />
 				</p>
 				<input type="hidden" name="alias" id="alias" value="{l s='My address'}" />
@@ -328,7 +335,7 @@
 						<label for="city_invoice">{l s='City'} <sup>*</sup></label>
 						<input type="text" class="text" name="city_invoice" id="city_invoice" value="" />
 					</p>
-					{elseif $field_name eq "country" || $field_name eq "Country:name"}
+					{elseif $field_name eq "country"}
 					<p class="required select">
 						<label for="id_country_invoice">{l s='Country'} <sup>*</sup></label>
 						<select name="id_country_invoice" id="id_country_invoice">
@@ -350,25 +357,23 @@
 					{/foreach}
 					{if !$stateExist}
 					<p class="required id_state_invoice select" style="display:none;">
-						<label for="id_state_invoice">{l s='State'} <sup>*</sup></label>
+						<label for="id_state_invoice">{l s='State'}</label>
 						<select name="id_state_invoice" id="id_state_invoice">
 							<option value="">-</option>
 						</select>
+						<sup>*</sup>
 					</p>
 					{/if}
 					<p class="textarea is_customer_param">
 						<label for="other_invoice">{l s='Additional information'}</label>
 						<textarea name="other_invoice" id="other_invoice" cols="26" rows="3"></textarea>
 					</p>
-					{if $one_phone_at_least}
-						<p class="inline-infos required">{l s='You must register at least one phone number.'}</p>
-					{/if}					
-					<p class="text">
+					<p class="required text">
 						<label for="phone_invoice">{l s='Home phone'}</label>
 						<input type="text" class="text" name="phone_invoice" id="phone_invoice" value="" />
 					</p>
-					<p class="{if $one_phone_at_least}required {/if}text is_customer_param">
-						<label for="phone_mobile_invoice">{l s='Mobile phone'}{if $one_phone_at_least} <sup>*</sup>{/if}</label>
+					<p class="text is_customer_param">
+						<label for="phone_mobile_invoice">{l s='Mobile phone'}</label>
 						<input type="text" class="text" name="phone_mobile_invoice" id="phone_mobile_invoice" value="" />
 					</p>
 					<input type="hidden" name="alias_invoice" id="alias_invoice" value="{l s='My Invoice address'}" />
@@ -378,7 +383,7 @@
 					<input type="submit" class="exclusive button" name="submitAccount" id="submitAccount" value="{l s='Save'}" />
 				</p>
 				<p style="display: none;" id="opc_account_saved">
-					{l s='Account information saved successfully'}
+					{l s='Account informations saved successfully'}
 				</p>
 				<p class="required opc-required" style="clear: both;">
 					<sup>*</sup>{l s='Required field'}

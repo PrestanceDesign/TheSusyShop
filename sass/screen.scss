@@ -1,0 +1,20 @@
+// ---------------------------------------------------------------------------
+// Imports
+
+@import "imports";
+
+/* -------------------------------------------------------------------------*/
+/* Layout */
+
+.container {
+  @include container;
+  @include susy-grid-background;
+  // Tablets 
+  @include at-breakpoint($tablets) {
+  	@include container;
+  }
+  // Computers 
+  @include at-breakpoint($computers) {
+  	@include container;
+  }
+}

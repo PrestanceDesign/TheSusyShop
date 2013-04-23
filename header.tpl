@@ -1,35 +1,12 @@
-{*
-* 2007-2013 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2013 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*}
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 lt-ie6 " lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
-<!--[if gt IE 8]> <html lang="fr" class="no-js ie9" lang="en"> <![endif]-->
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$lang_iso}">
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="{$lang_iso}">
 	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>{$meta_title|escape:'htmlall':'UTF-8'}</title>
 {if isset($meta_description) AND $meta_description}
 		<meta name="description" content="{$meta_description|escape:html:'UTF-8'}" />
@@ -37,12 +14,16 @@
 {if isset($meta_keywords) AND $meta_keywords}
 		<meta name="keywords" content="{$meta_keywords|escape:html:'UTF-8'}" />
 {/if}
-		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-		<meta http-equiv="content-language" content="{$meta_language}" />
+		<meta name="viewport" content="width=device-width">
 		<meta name="generator" content="PrestaShop" />
 		<meta name="robots" content="{if isset($nobots)}no{/if}index,{if isset($nofollow) && $nofollow}no{/if}follow" />
 		<link rel="icon" type="image/vnd.microsoft.icon" href="{$favicon_url}?{$img_update_time}" />
 		<link rel="shortcut icon" type="image/x-icon" href="{$favicon_url}?{$img_update_time}" />
+		<link rel="apple-touch-icon" href="{$tpl_dir}/apple-touch-icon.png">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{$tpl_dir}/apple-touch-icon-144x144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{$tpl_dir}/apple-touch-icon-114x114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{$tpl_dir}/apple-touch-icon-72x72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="{$tpl_dir}/apple-touch-icon-precomposed.png">
 		<script type="text/javascript">
 			var baseDir = '{$content_dir}';
 			var baseUri = '{$base_uri}';
